@@ -15,8 +15,7 @@ export function HeroSection() {
         >
           Watch Your Favorite{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-            Sports Live
-            I love you Dibya ❤️
+            Sports Live I love you Dibya ❤️
           </span>
         </motion.h1>
         
