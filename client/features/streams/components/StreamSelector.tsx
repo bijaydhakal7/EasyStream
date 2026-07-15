@@ -25,7 +25,7 @@ export function StreamSelector({
       {streams.map((stream) => (
 
         <StreamCard
-          key={stream.streamNo}
+          key={`${stream.streamNo}-${stream.provider}`}
           stream={stream}
           selected={
             selectedStream?.id ===
