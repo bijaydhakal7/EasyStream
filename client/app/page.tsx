@@ -10,7 +10,7 @@ export default function HomePage() {
     useState("all");
 
   return (
-    <main className="container py-6 space-y-8">
+    <main className="container py-6 space-y-8 ">
 
       <SportsFilter
         selectedSport={selectedSport}

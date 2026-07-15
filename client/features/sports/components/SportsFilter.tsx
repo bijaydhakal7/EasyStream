@@ -28,7 +28,7 @@ export function SportsFilter({
   }
 
   return (
-    <div className="flex gap-3 overflow-x-auto pb-2">
+    <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
       {/* All button */}
       <SportButton
         sport={{ id: "all", name: "All" }}

@@ -19,6 +19,7 @@ export function TeamBadge({
       alt={name ?? "Team"}
       width={size}
       height={size}
+      loading="lazy"
       className="rounded-full object-contain"
     />
   );
