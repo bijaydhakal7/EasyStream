@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { notFound } from "next/navigation";
 
 import {
@@ -105,24 +105,32 @@ export function WatchContainer({
   if (isMatchError) {
     return (
       <main className="container py-8">
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <Alert variant="destructive" className="border-destructive/50">
+            <AlertCircle className="h-5 w-5" />
 
-          <AlertTitle>
-            Failed to load match
-          </AlertTitle>
+            <AlertTitle>
+              Failed to load match
+            </AlertTitle>
 
-          <AlertDescription className="mt-2">
-            We couldn&apos;t load this match.
+            <AlertDescription className="mt-2">
+              We couldn't load this match.
 
-            <Button
-              className="mt-4"
-              onClick={() => refetchMatch()}
-            >
-              Try Again
-            </Button>
-          </AlertDescription>
-        </Alert>
+              <Button
+                className="mt-4"
+                onClick={() => refetchMatch()}
+                variant="destructive"
+                size="lg"
+              >
+                Try Again
+              </Button>
+            </AlertDescription>
+          </Alert>
+        </motion.div>
       </main>
     );
   }
@@ -142,7 +150,7 @@ export function WatchContainer({
    */
   if (isStreamsLoading) {
     return (
-      <main className="container py-8">
+      <main className="container py-8 space-y-8">
 
         <MatchHero
           match={match}
@@ -169,23 +177,31 @@ export function WatchContainer({
           isLive={isLive}
         />
 
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <Alert variant="destructive" className="border-destructive/50">
+            <AlertCircle className="h-5 w-5" />
 
-          <AlertTitle>
-            Failed to load streams
-          </AlertTitle>
+            <AlertTitle>
+              Failed to load streams
+            </AlertTitle>
 
-          <AlertDescription className="mt-2">
+            <AlertDescription className="mt-2">
 
-            <Button
-              onClick={() => refetchStreams()}
-            >
-              Retry
-            </Button>
+              <Button
+                onClick={() => refetchStreams()}
+                variant="destructive"
+                size="lg"
+              >
+                Retry
+              </Button>
 
-          </AlertDescription>
-        </Alert>
+            </AlertDescription>
+          </Alert>
+        </motion.div>
 
       </main>
     );
@@ -203,17 +219,23 @@ export function WatchContainer({
           isLive={isLive}
         />
 
-        <Alert>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <Alert className="border-border/50 bg-card/50 backdrop-blur">
 
-          <AlertTitle>
-            No Streams Available
-          </AlertTitle>
+            <AlertTitle>
+              No Streams Available
+            </AlertTitle>
 
-          <AlertDescription>
-            Please check back later.
-          </AlertDescription>
+            <AlertDescription>
+              Please check back later.
+            </AlertDescription>
 
-        </Alert>
+          </Alert>
+        </motion.div>
 
       </main>
     );
@@ -223,38 +245,64 @@ export function WatchContainer({
    * Success
    */
   return (
-    <motion.main
-      className="container py-8 space-y-8"
-      initial={{
-        opacity: 0,
-        y: 20,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-      }}
-      transition={{
-        duration: 0.35,
-      }}
-    >
-      <MatchHero
-        match={match}
-        isLive={isLive}
-      />
+    <AnimatePresence>
+      <motion.main
+        key={matchId}
+        className="container py-8 space-y-10"
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        exit={{
+          opacity: 0,
+          y: -20,
+        }}
+        transition={{
+          duration: 0.4,
+          ease: "easeOut",
+        }}
+      >
+        <MatchHero
+          match={match}
+          isLive={isLive}
+        />
 
-      <StreamPlayer
-        stream={activeStream}
-      />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+        >
+          <StreamPlayer
+            stream={activeStream}
+          />
+        </motion.div>
 
-      <StreamSelector
-        streams={streams}
-        selectedStream={activeStream}
-        onSelect={setSelectedStream}
-      />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+        >
+          <StreamSelector
+            streams={streams}
+            selectedStream={activeStream}
+            onSelect={setSelectedStream}
+          />
+        </motion.div>
 
-      <MatchInfo
-        match={match}
-      />
-    </motion.main>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
+        >
+          <MatchInfo
+            match={match}
+          />
+        </motion.div>
+      </motion.main>
+    </AnimatePresence>
   );
 }

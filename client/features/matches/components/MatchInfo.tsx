@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -11,44 +12,84 @@ export function MatchInfo({
   match,
 }: MatchInfoProps) {
   return (
-    <Card className="p-6">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
+    >
+      <Card className="p-6 border-border/50 shadow-lg bg-card/50 backdrop-blur">
 
-      <h2 className="text-lg font-semibold">
-        Match Details
-      </h2>
+        <motion.h2
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="text-lg font-semibold text-foreground mb-4"
+        >
+          Match Details
+        </motion.h2>
 
-      <dl className="mt-4 grid grid-cols-2 gap-4 text-sm sm:grid-cols-4">
+        <motion.dl
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4"
+        >
 
-        <div>
-          <dt className="text-muted-foreground">Title</dt>
-          <dd className="mt-1 font-medium">{match.title}</dd>
-        </div>
+          <InfoItem
+            label="Title"
+            value={match.title}
+            delay={0.2}
+          />
 
-        <div>
-          <dt className="text-muted-foreground">Category</dt>
-          <dd className="mt-1">
-            <Badge variant="secondary" className="capitalize">
-              {match.category}
-            </Badge>
-          </dd>
-        </div>
+          <InfoItem
+            label="Category"
+            value={
+              <Badge variant="secondary" className="capitalize border-0 bg-muted/50 text-muted-foreground">
+                {match.category}
+              </Badge>
+            }
+            delay={0.25}
+          />
 
-        <div>
-          <dt className="text-muted-foreground">Popular</dt>
-          <dd className="mt-1 font-medium">
-            {match.popular ? "Yes" : "No"}
-          </dd>
-        </div>
+          <InfoItem
+            label="Popular"
+            value={match.popular ? "Yes" : "No"}
+            delay={0.3}
+            highlight={match.popular}
+          />
 
-        <div>
-          <dt className="text-muted-foreground">Sources</dt>
-          <dd className="mt-1 font-medium">
-            {match.sources.length}
-          </dd>
-        </div>
+          <InfoItem
+            label="Sources"
+            value={match.sources.length.toString()}
+            delay={0.35}
+          />
 
-      </dl>
+        </motion.dl>
 
-    </Card>
+      </Card>
+    </motion.div>
+  );
+}
+
+interface InfoItemProps {
+  label: string;
+  value: string | React.ReactNode;
+  delay?: number;
+  highlight?: boolean;
+}
+
+function InfoItem({ label, value, delay = 0, highlight = false }: InfoItemProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay }}
+      className="flex flex-col"
+    >
+      <dt className="text-muted-foreground/70">{label}</dt>
+      <dd className={`mt-1 font-medium ${highlight ? "text-green-600 dark:text-green-500" : ""}`}>
+        {value}
+      </dd>
+    </motion.div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { motion } from "framer-motion";
 
 import { useMatches } from "../hooks/useMatches";
 import { useLiveMatches } from "../hooks/useLiveMatches";
@@ -39,7 +40,10 @@ export function MatchesView({
 
   if (isLoading) {
     return (
-      <div
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         className="
         grid
         gap-6
@@ -49,24 +53,42 @@ export function MatchesView({
         "
       >
         {Array.from({ length: 8 }).map((_, index) => (
-          <MatchSkeleton key={index} />
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+          >
+            <MatchSkeleton />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     );
   }
 
   if (isError) {
     return (
-      <p className="text-center py-20">
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center py-20 text-muted-foreground"
+      >
         Failed to load matches.
-      </p>
+      </motion.p>
     );
   }
 
   return (
-    <MatchGrid
-      matches={filteredMatches}
-      liveMatchIds={liveMatchIds}
-    />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <MatchGrid
+        matches={filteredMatches}
+        liveMatchIds={liveMatchIds}
+      />
+    </motion.div>
   );
 }

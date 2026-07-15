@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 import { Match } from "../types/match";
 
 import { MatchCard } from "./MatchCard";
@@ -14,14 +16,22 @@ export function MatchGrid({
 }: MatchGridProps) {
   if (!matches.length) {
     return (
-      <p className="py-20 text-center text-muted-foreground">
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="py-20 text-center text-muted-foreground"
+      >
         No matches found.
-      </p>
+      </motion.p>
     );
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="
       grid
       gap-6
@@ -33,13 +43,23 @@ export function MatchGrid({
       xl:grid-cols-4
       "
     >
-      {matches.map((match) => (
-        <MatchCard
+      {matches.map((match, index) => (
+        <motion.div
           key={match.id}
-          match={match}
-          isLive={liveMatchIds.has(match.id)}
-        />
+          initial={{ opacity: 0, y: 30, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{
+            duration: 0.5,
+            delay: index * 0.03,
+            ease: "easeOut",
+          }}
+        >
+          <MatchCard
+            match={match}
+            isLive={liveMatchIds.has(match.id)}
+          />
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
