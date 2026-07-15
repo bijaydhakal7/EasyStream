@@ -41,6 +41,7 @@ export function MatchGrid({
       lg:grid-cols-3
 
       xl:grid-cols-4
+      mx-3
       "
     >
       {matches.map((match, index) => (
