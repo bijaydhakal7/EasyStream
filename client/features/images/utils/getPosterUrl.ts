@@ -1,6 +1,6 @@
 export function getPosterUrl(poster?: string) {
   if (!poster) {
-    return "/images/placeholder-poster.webp";
+    return "/images/bijay.jpg";
   }
 
   /**
@@ -10,8 +10,8 @@ export function getPosterUrl(poster?: string) {
    */
 
   if (poster.startsWith("/")) {
-    return `https://streamed.pk${poster}.webp`;
+    return `https://streamed.pk${poster}`;
   }
 
-  return `https://streamed.pk/${poster}.webp`;
+  return `https://streamed.pk/${poster}`;
 }
